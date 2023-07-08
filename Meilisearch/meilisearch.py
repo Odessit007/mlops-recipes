@@ -73,10 +73,12 @@ client.index('movies').update_typo_tolerance({
 
 
 # Search
-# client.index('movies').search(query, settings)
-results = client.index('movies').search(
+# client.index('movies').search(query, optional settings)
+results_2 = client.index('movies').search(
   'wonder',
   {
+    'limit': 5,
+    'attributesToHighlight': ['title'],
     'filter': ['id > 1 AND genres = Action']
   }
 )
