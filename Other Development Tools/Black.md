@@ -7,7 +7,7 @@
 # Intro
 
 [Black](https://black.readthedocs.io/en/stable/index.html) is an auto-formatting tool. It changes your files enforcing 
-a unified code style across your code base.
+a unified code style across your code base. The style docs are available [here](https://black.readthedocs.io/en/stable/the_black_code_style/current_style.html).
 
 Installation: `pip install black`, `pdm add black`, etc.
 
