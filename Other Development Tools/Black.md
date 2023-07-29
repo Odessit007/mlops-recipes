@@ -19,6 +19,11 @@ Black has integrations with
 * [GitHub Actions](https://black.readthedocs.io/en/stable/integrations/github_actions.html)
 * [pre-commit](https://black.readthedocs.io/en/stable/integrations/source_version_control.html#version-control-integration)
 
+Black checks that the code before and after reformatting is semantically equivalent. This check is done by comparing
+the AST of the source with the AST of the target. There are three limited cases in which the AST does differ.
+Check [here](https://black.readthedocs.io/en/stable/the_black_code_style/current_style.html#ast-before-and-after-formatting)
+for more details.
+
 If `--exclude` is not set, Black will automatically ignore files and directories in .gitignore file(s), if present.
 If you want Black to continue using .gitignore while also configuring the exclusion rules, please use `--extend-exclude`.
 
@@ -30,7 +35,12 @@ Black is a well-behaved Unix-style command-line tool:
 
 Black reformats entire files in place. It doesn’t reformat lines that end with `# fmt: skip` or blocks that start with 
 `# fmt: off` and end with `# fmt: on`. `# fmt: on/off` must be on the same level of indentation and in the same block, 
-meaning no unindents beyond the initial indentation level between them. 
+meaning no unindents beyond the initial indentation level between them.
+
+Black in general does not take existing formatting into account. However, there are cases where you put a short 
+collection or function call in your code, but you anticipate it will grow in the future. Early versions of Black used to 
+ruthlessly collapse those into one line (it fits!). Now, you can communicate that you don’t want that by putting a trailing 
+comma in the collection yourself. When you do, Black will know to always explode your collection into one item per line.
 
 
 
