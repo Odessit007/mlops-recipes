@@ -9,6 +9,8 @@
 [Black](https://black.readthedocs.io/en/stable/index.html) is an auto-formatting tool. It changes your files enforcing 
 a unified code style across your code base. The style docs are available [here](https://black.readthedocs.io/en/stable/the_black_code_style/current_style.html).
 
+You can try Black online [here](https://black.vercel.app/?version=stable&state=_Td6WFoAAATm1rRGAgAhARYAAAB0L-Wj4ARsAnNdAD2IimZxl1N_WlkPinBFoXIfdFTaTVkGVeHShArYj9yPlDvwBA7LhGo8BvRQqDilPtgsfdKl-ha7EFp0Ma6lY_06IceKiVsJ3BpoICJM9wU1VJLD7l3qd5xTmo78LqThf9uibGWcWCD16LBOn0JK8rhhx_Gf2ClySDJtvm7zQJ1Z-Ipmv9D7I_zhjztfi2UTVsJp7917XToHBm2EoNZqyE8homtGskFIiif5EZthHQvvOj8S2gJx8_t_UpWp1ScpIsD_Xq83LX-B956I_EBIeNoGwZZPFC5zAIoMeiaC1jU-sdOHVucLJM_x-jkzMvK8Utdfvp9MMvKyTfb_BZoe0-FAc2ZVlXEpwYgJVAGdCXv3lQT4bpTXyBwDrDVrUeJDivSSwOvT8tlnuMrXoD1Sk2NZB5SHyNmZsfyAEqLALbUnhkX8hbt5U2yNQRDf1LQhuUIOii6k6H9wnDNRnBiQHUfzKfW1CLiThnuVFjlCxQhJ60u67n3EK38XxHkQdOocJXpBNO51E4-f9z2hj0EDTu_ScuqOiC9cI8qJ4grSZIOnnQLv9WPvmCzx5zib3JacesIxMVvZNQiljq_gL7udm1yeXQjENOrBWbfBEkv1P4izWeAysoJgZUhtZFwKFdoCGt2TXe3xQ-wVZFS5KoMPhGFDZGPKzpK15caQOnWobOHLKaL8eFA-qI44qZrMQ7sSLn04bYeenNR2Vxz7hvK0lJhkgKrpVfUnZrtF-e-ubeeUCThWus4jZbKlFBe2Kroz90Elij_UZBMFCcFo0CfIx5mGlrINrTJLhERszRMMDd39XsBDzpZIYV4TcG7HoMS_IF8aMAAAxI-5uTWXbUQAAY8F7QgAAP01Vc6xxGf7AgAAAAAEWVo=)
+
 Installation: `pip install black`, `pdm add black`, etc.
 
 Basic usage: `black <file_or_directory>`.
@@ -25,6 +27,10 @@ Black is a well-behaved Unix-style command-line tool:
 * it will read from standard input and write to standard output if `-` is used as the filename;
 * it only outputs messages to users on standard error;
 * exits with code 0 unless an internal error occurred or a CLI option prompted it.
+
+Black reformats entire files in place. It doesn’t reformat lines that end with `# fmt: skip` or blocks that start with 
+`# fmt: off` and end with `# fmt: on`. `# fmt: on/off` must be on the same level of indentation and in the same block, 
+meaning no unindents beyond the initial indentation level between them. 
 
 
 
