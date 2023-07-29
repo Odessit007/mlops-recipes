@@ -1,6 +1,7 @@
 * [Intro](#intro)
 * [Installation](#install)
 * [Config file](#config)
+  * [Repository local hooks](#local-hooks)
 * [Installing and updating hooks](#hooks-management)
 * [Running hooks](#running-hooks)
 
@@ -80,6 +81,34 @@ full list is [here](https://pre-commit.com/#pre-commit-configyaml---hooks)):
   * `verbose`: (optional) if `true`, forces the output of the hook to be printed even when the hook passes;
   * `log_file`: (optional) if present, the hook output will additionally be written to a file when the hook fails or 
 `verbose` is `true`.
+
+  
+<a id="local-hooks"></a>
+## Repository local hooks
+Instead of pulling hooks from the remote repositories, one can configure everything to be fully local. For this,
+hook's `repo` field should have the value `local` instead of Git repository.
+
+A local hook must define
+* `id`: the id of the hook - used in pre-commit-config.yam;
+* `name`: the name of the hook - shown during hook execution;
+* `language`: the language of the hook - tells pre-commit how to install the hook;
+  * use the value `system` if the tool used in a hook becomes a system command after installation;
+* `entry`: the entry point - the executable to run. `entry` can also contain arguments that will not be overridden 
+such as `entry: autopep8 -i`;
+* `files`: (optional: default `''`) the pattern of files to run on;
+* `types`: (optional: default `^$`) exclude files that were matched by files.
+
+Here's an example configuration with a single local hook (there can be many):
+```yaml
+- repo: local
+  hooks:
+  - id: pylint
+    name: pylint
+    entry: pylint
+    language: system
+    types: [python]
+    require_serial: true
+```
 
 
 
