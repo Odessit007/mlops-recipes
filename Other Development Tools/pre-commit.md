@@ -13,7 +13,7 @@
 Git events (commit, push, etc.) can trigger scripts that do something useful. When the event happens (say, user runs 
 `git push` command), the script runs and this script can perform some action and potentially block the Git flow.
 For example, the script triggered after `git push` might run unit tests and block the actual push if those fail. 
-Or the `git commit` may trigger the formatting of the source code and prevent the actual commit if any of the commited 
+Or the `git commit` may trigger the formatting of the source code and prevent the actual commit if any of the committed 
 files had formatting issues (the user can then re-commit the files with changes). The examples below are mostly for Python, 
 but `pre-commit` works with any language.
 
@@ -22,8 +22,21 @@ Some things that might be happening in such scripts (called "hooks") and some ex
 * check style ([ruff](https://github.com/astral-sh/ruff));
 * do static type checking based on type hints ([mypy](https://github.com/python/mypy));
 * upgrade Python code for newer language version ([pyupgrade](https://github.com/asottile/pyupgrade));
+  * use `--py{version}-plus` to apply changes relevant for Python >= given version (for example, `--py38-plus`);
 * run tests ([pytest](https://github.com/pytest-dev/pytest));
-* and many more things -- a full list of supported hooks is available [here](https://pre-commit.com/hooks.html).
+* find common security issues ([bandit](https://github.com/PyCQA/bandit));
+* `pre-commit` itself supports a bunch of built-in utilities including:
+  * `check-added-large-files`: prevents giant files from being committed; 
+  * `check-ast`: simply checks whether the files parse as valid Python;
+  * `check-json`, `chek-toml`, `chek-xml`, `chek-yaml`: checks that JSON/TOML/XML/YAML files are parseable
+  * `check-shebang-scripts-are-executable`: ensures that (non-binary) files with a shebang are executable;
+  * `pretty-format-json`: sets a standard for formatting JSON files;
+  * `check-merge-conflict`: checks for files that contain merge conflict strings;
+  * `detect-aws-credentials`: detects *your* aws credentials from the aws cli credentials file;
+  * `end-of-file-fixer`: ensures that a file is either empty, or ends with one newline;
+  * `file-contents-sorter` - sorts the lines in specified files (defaults to alphabetical).
+You must provide list of target files as input in your .pre-commit-config.yaml file
+* and [many more options](https://pre-commit.com/hooks.html)
 
 
 
