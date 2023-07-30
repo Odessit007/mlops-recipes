@@ -19,8 +19,10 @@ but `pre-commit` works with any language.
 
 Some things that might be happening in such scripts (called "hooks") and some examples of the tools that might be used:
 * reformat code ([black](https://github.com/psf/black));
-* check style ([ruff](https://github.com/astral-sh/ruff));
-* do static type checking based on type hints ([mypy](https://github.com/python/mypy));
+* check style ([ruff](https://github.com/astral-sh/ruff), [pylint](https://github.com/pylint-dev/pylint));
+* do static type checking ([mypy](https://github.com/python/mypy),
+[pyre-check](https://github.com/facebook/pyre-check) from Facebook, [pytype](https://github.com/google/pytype/) from Google,
+[pyright](https://github.com/microsoft/pyright) from Microsoft);
 * upgrade Python code for newer language version ([pyupgrade](https://github.com/asottile/pyupgrade));
   * use `--py{version}-plus` to apply changes relevant for Python >= given version (for example, `--py38-plus`);
 * run tests ([pytest](https://github.com/pytest-dev/pytest));
