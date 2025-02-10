@@ -7,6 +7,17 @@
   * [Read](#read)
   * [Write](#write)
   * [Query](#query)
+* [Recipes and Tips](#recipes-and-tips)
+  * [Directly querying Parquet files](#direct-parquet-queries)
+  * [Combining schemas](#combining-schemas)
+  * [Zonemaps](#zonemaps)
+  * [ART Indexes](#art-indexes)
+  * [Summary of best practices](#summary-of-best-practices)
+    * [Parquet-related best practices](#parquet-best-practices)
+    * [Bulk inserts](#bulk-inserts)
+    * [Indexing-related best practices](#indexing-best-practices)
+    * [Environment-related best practices](#environment-best-practices)
+* [Text Search](#text-search)
 
 
 
@@ -183,7 +194,10 @@ FROM parquet_kv_metadata('test.parquet');
 
 
 
+<a id="recipes-and-tips"></a>
 # Recipes and Tips
+
+<a id="direct-parquet-queries"></a>
 ## Directly querying Parquet files
 DuckDB supports directly querying Parquet files, but there are pros and cons for doing this instead of first loading
 them to the database.
@@ -209,6 +223,7 @@ always be somewhat faster, which over time amortizes the initial load time. This
 compressed files.
 
 
+<a id="combining-schemas"></a>
 ## Combining schemas
 When reading from multiple files, we have to combine schemas from those files. 
 This can be done in two ways:
@@ -223,6 +238,7 @@ FROM read_csv(['file1.csv', 'file2.csv'], union_by_name = true);
 ```
 
 
+<a id="zonemaps"></a>
 ## Zonemaps
 DuckDB automatically creates **zonemaps** (also known as min-max indexes) for the columns of all general-purpose data 
 types. These indexes are used for predicate pushdown into scan operators and computing aggregations. 
@@ -240,6 +256,7 @@ simply keeping the column order allows for improved compression, yielding a 2.5x
 the computation to be 1.5x faster.
 
 
+<a id="art-indexes"></a>
 ## ART Indexes
 DuckDB allows defining Adaptive Radix Tree (ART) indexes. Such an index is created implicitly for columns with 
 PRIMARY KEY, FOREIGN KEY, and UNIQUE constraints. Second, explicitly running the CREATE INDEX statement creates an ART 
@@ -261,7 +278,9 @@ will only load the required parts of the index. Therefore, having an index will 
 an existing database.
 
 
+<a id="summary-of-best-practices"></a>
 ## Summary of best practices
+<a id="parquet-best-practices"></a>
 ### Parquet-related best practices
 If you have the storage space available, and have a join-heavy workload and/or plan to run many queries on the same
 dataset, load the Parquet files into the database first. The compression algorithm and the row group sizes in the
@@ -286,11 +305,13 @@ that meet the filter criteria. This can be especially helpful when querying remo
 See more tips on writing Parquet files [here](https://duckdb.org/docs/data/parquet/tips#tips-for-writing-parquet-files).
 
 
+<a id="bulk-inserts"></a>
 ### Bulk inserts
 Unless your data is small (<100k rows), avoid using inserts in loops. Use bulk operations instead.
 
 
-### Indexing-related best practices:
+<a id="indexing-best-practices"></a>
+### Indexing-related best practices
 * If specific columns will be queried with selective filters, it is best to pre-order data by those columns when
 inserting it. This can improve both the computation and the storage size.
 * Only use primary keys, foreign keys, or unique constraints, if these are necessary for enforcing constraints
@@ -303,10 +324,15 @@ condition returns approximately 0.1% of all rows or fewer. It has no effect on t
 and sorting queries.
 
 
-### Environment-related best practices:
+<a id="environment-best-practices"></a>
+### Environment-related best practices
 * Aim for 5-10 GB memory per thread (with a minimum of 125 MB per thread)
 * If you have a limited amount of memory, try to limit the number of threads, e.g., by issuing `SET threads = 4;`.
 * Fast disks are important if your workload is larger than memory and/or fast data loading is important. Only use 
 network-backed disks if they guarantee high IO.
 * Among Linux distributions, DuckDB developers recommended using Ubuntu Linux LTS due to its stability and the fact 
 that most of DuckDB’s Linux test suite jobs run on Ubuntu workers.
+
+
+<a id="text-search"></a>
+# Text search
